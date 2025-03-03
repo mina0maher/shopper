@@ -40,4 +40,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    api(libs.koin.core)//lma b3mlha api kol almodules alli bt3ml implement llmodule da bta5odha m3aha
 }
