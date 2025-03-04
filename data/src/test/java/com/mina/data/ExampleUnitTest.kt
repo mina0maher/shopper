@@ -1,4 +1,4 @@
-package com.mina.mylibrary
+package com.mina.data
 
 import org.junit.Test
 

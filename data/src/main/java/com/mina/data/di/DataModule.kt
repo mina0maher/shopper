@@ -1,4 +1,4 @@
-package com.mina.mylibrary.di
+package com.mina.data.di
 
 import org.koin.dsl.module
 
