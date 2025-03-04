@@ -1,4 +1,4 @@
-package com.mina.shopper.ui.theme
+package com.mina.shopper.theme
 
 import androidx.compose.ui.graphics.Color
 
