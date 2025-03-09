@@ -14,32 +14,43 @@ class HomeViewModel(private val getProductUseCase: GetProductUseCase):ViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        getProducts()
+        getAllProducts()
     }
 
 
-    fun getProducts(){
+    private fun getAllProducts(){
         viewModelScope.launch {
+            _uiState.value = HomeScreenUIEvents.Loading
+            val featured = getProducts("electronics")
+            val popularProducts = getProducts("jewelery")
+            if(featured.isEmpty()||popularProducts.isEmpty()){
+                _uiState.value = HomeScreenUIEvents.Error("Failed To Load Products")
+                return@launch
+            }
+            _uiState.value = HomeScreenUIEvents.Success(featured,popularProducts )
+
+        }
+    }
+    private suspend fun getProducts(category:String?):List<Product>{
+
             _uiState.value=HomeScreenUIEvents.Loading
-            getProductUseCase.execute().let{result ->
+            getProductUseCase.execute(category).let{result ->
                 when(result){
                     is ResultWrapper.Success ->{
-                        val data = (result as ResultWrapper.Success).value
-                        _uiState.value = HomeScreenUIEvents.Success(data)
+                        return (result).value
                     }
                     is ResultWrapper.Failure ->{
-                        val message = (result as ResultWrapper.Failure).exception.message?:"Error Occurred"
-                        _uiState.value = HomeScreenUIEvents.Error(message)
+                        return emptyList()
                     }
 
                 }
 
             }
-        }
+
     }
 }
 sealed class HomeScreenUIEvents{
     data object Loading:HomeScreenUIEvents()
-    data class Success(val data:List<Product>):HomeScreenUIEvents()
+    data class Success(val feature:List<Product>,val popularProducts:List<Product>):HomeScreenUIEvents()
     data class Error(val message:String):HomeScreenUIEvents()
 }

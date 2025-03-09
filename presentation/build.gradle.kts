@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.mina.shopper"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.mina.shopper"
@@ -60,4 +60,5 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.android.compose)
     implementation(libs.compose.navigation )
+    implementation(libs.coil.compose)
 }
